@@ -48,15 +48,15 @@ A auction database system that handles auction functionality: bidding, sales, an
 ## File Structure
 ```
 AuctionBase/
-├── 1_database_setup.sql     # Database initialization
-├── 2_create_tables.sql      # Table definitions
-├── 3_indexes_constraints.sql # Database constraints
-├── 4_triggers.sql           # System triggers
-├── 5_views.sql             # Database views
-├── 6_initial_data.sql      # Sample data
-├── 7_stored_procedures.sql # Stored Procedures
-├── README.md               # This file
-└── auction.jpg             # Database diagram
+├── 1_database_setup.sql         # Database initialization
+├── 2_create_tables.sql          # Table definitions
+├── 3_indexes_constraints.sql    # Database constraints
+├── 4_triggers.sql               # System triggers
+├── 5_views.sql                  # Database views
+├── 6_initial_data.sql           # Sample data
+├── 7_stored_procedures.sql      # Stored Procedures
+├── README.md                    # This file
+└── auction.jpg                  # Database diagram
 ```
 
 ## Database Diagram
