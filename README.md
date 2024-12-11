@@ -64,7 +64,6 @@ AuctionBase/
 
 ## Requirements
 - MySQL 5.7 or higher
-- Basic understanding of SQL
 
 ## Setup Instructions
 1. Run database setup: `1_database_setup.sql`
