@@ -1,0 +1,49 @@
+CONSTRAINTS.TXT
+
+
+AuctionBase System Constraints Implementation
+
+1. User Constraints
+------------------
+* Unique User ID (PRIMARY KEY on Users.UserID)
+* Valid user types (CHECK UserType IN ('BUYER', 'SELLER', 'BOTH'))
+* Payment info required for bidding (trigger check on HasPaymentInfo)
+
+2. Item Constraints
+------------------
+* Unique Item ID (PRIMARY KEY on Items.ItemID)
+* Valid auction timeframe (CHECK EndTime > StartTime)
+* Valid starting price (CHECK StartingPrice > 0)
+* Current price matches highest bid (trigger update_bid_insert)
+* Valid item status (CHECK Status IN ('ACTIVE', 'ENDED', 'SOLD'))
+
+3. Bidding Constraints
+------------------
+* No self-bidding (trigger before_bid_insert)
+* Higher bids only (trigger before_bid_insert)
+* Valid bid timing (CHECK BidTime between StartTime and EndTime)
+* Unique bid amounts per item (UNIQUE (ItemID, Amount))
+* Unique bid times per item (UNIQUE (ItemID, BidTime))
+
+4. Payment & Shipping Constraints
+------------------
+* Valid credit card expiration (CHECK ExpirationDate > CURRENT_DATE)
+* Valid shipping types (CHECK Type IN ('PICKUP', 'STANDARD', 'EXPRESS'))
+* Two-day shipping deadline (trigger after_payment_success)
+* Payment before shipping (trigger before_shipment_insert)
+* Valid sale status progression (CHECK Status IN ('PENDING', 'PAID', 'SHIPPED', 'COMPLETED'))
+
+5. Review Constraints
+------------------
+* Valid rating range (CHECK Rating BETWEEN 1 AND 5)
+* One review per transaction (UNIQUE (BuyerID, SellerID, ItemID))
+
+6. Category Constraints
+------------------
+* Unique category assignment (PRIMARY KEY (ItemID, CategoryID) in ItemCategories)
+* Valid category reference (FOREIGN KEY constraints in ItemCategories)
+
+7. Time Constraints
+------------------
+* System time consistency (single row in Time table)
+* Forward-only time progression (trigger validation)

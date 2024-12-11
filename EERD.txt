@@ -1,0 +1,165 @@
+@startuml
+
+' Entities
+entity "User" as user {
+  *user_id : number <<PK>>
+  --
+  *username : string
+  *email : string
+  *name : string
+  *address : string
+  *phone_number : string
+  *user_type : enum
+  *has_payment_info : boolean
+}
+
+entity "Item" as item {
+  *item_id : number <<PK>>
+  --
+  *title : string
+  description : text
+  location : string
+  *seller_id : number <<FK>>
+  *start_time : datetime
+  *end_time : datetime
+  *starting_price : decimal
+  *current_price : decimal
+  *number_of_bids : number
+  *status : enum
+}
+
+entity "Category" as category {
+  *category_id : number <<PK>>
+  --
+  *name : string
+  description : text
+}
+
+entity "ItemCategory" as itemcategory {
+  *item_id : number <<PK, FK>>
+  *category_id : number <<PK, FK>>
+}
+
+entity "Bid" as bid {
+  *bid_id : number <<PK>>
+  --
+  *item_id : number <<FK>>
+  *bidder_id : number <<FK>>
+  *amount : decimal
+  *bid_time : datetime
+}
+
+entity "Review" as review {
+  *review_id : number <<PK>>
+  --
+  *buyer_id : number <<FK>>
+  *seller_id : number <<FK>>
+  *item_id : number <<FK>>
+  *rating : number
+  feedback : text
+}
+
+entity "ShippingOption" as shipping {
+  *option_id : number <<PK>>
+  --
+  *seller_id : number <<FK>>
+  *price : decimal
+  *estimated_time : number
+  *type : string
+}
+
+entity "BankInformation" as bank {
+  *bank_id : number <<PK>>
+  --
+  *seller_id : number <<FK>>
+  *bank_name : string
+  *routing_number : string
+  *account_number : string
+}
+
+entity "PaymentInformation" as paymentinfo {
+  *payment_id : number <<PK>>
+  --
+  *buyer_id : number <<FK>>
+  *card_number : string
+  *expiration_date : date
+  *ccv : string
+  *name_on_card : string
+  *billing_address : string
+}
+
+entity "Payment" as payment {
+  *payment_id : number <<PK>>
+  --
+  *buyer_id : number <<FK>>
+  *item_id : number <<FK>>
+  *amount : decimal
+  *status : enum
+  *payment_date : datetime
+  *payment_method : string
+}
+
+entity "Sale" as sale {
+  *item_id : number <<PK, FK>>
+  --
+  *buyer_id : number <<FK>>
+  *final_price : decimal
+  *shipping_option_id : number <<FK>>
+  *status : enum
+  tracking_number : string
+  *ship_by_date : datetime
+  shipped_date : datetime
+  *delivery_confirmed : boolean
+}
+
+entity "Shipment" as shipment {
+  *shipment_id : number <<PK>>
+  --
+  *item_id : number <<FK>>
+  tracking_number : string
+  *status : enum
+  shipped_date : datetime
+  estimated_delivery_date : datetime
+  actual_delivery_date : datetime
+  *confirmation : boolean
+}
+
+entity "Time" as time {
+  *current_time : datetime
+}
+
+' Relationships
+user "1" -- "0..*" item : sells >
+user "1" -- "0..*" bid : places >
+item "1" -- "0..*" bid : receives >
+item "1" -- "0..*" itemcategory : has >
+category "1" -- "0..*" itemcategory : contains >
+user "1" -- "0..*" shipping : offers >
+user "1" -- "0..*" bank : owns >
+user "1" -- "0..*" paymentinfo : stores >
+user "1" -- "0..*" payment : makes >
+item "1" -- "0..1" sale : results in >
+sale "1" -- "1" shipping : uses >
+item "1" -- "0..1" shipment : has >
+sale "1" -- "1" shipment : tracks >
+
+' Notes
+note "User Types:\nBUYER\nSELLER\nBOTH" as N1
+user .. N1
+
+note "Item Status:\nACTIVE\nSOLD" as N2
+item .. N2
+
+note "Payment Status:\nPENDING\nPAID" as N3
+payment .. N3
+
+note "Sale Status:\nPENDING\nPAID\nSHIPPED\nCOMPLETED" as N4
+sale .. N4
+
+note "Shipping Types:\nPICKUP\nSTANDARD\nEXPRESS" as N5
+shipping .. N5
+
+note "Shipment Status:\nPENDING\nSHIPPED\nDELIVERED" as N6
+shipment .. N6
+
+@enduml
