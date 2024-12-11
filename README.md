@@ -1,7 +1,7 @@
 # AuctionBase System
 
 ## Overview
-A simplified auction database system that handles basic auction functionality including bidding, sales, and user management.
+A auction database system that handles auction functionality: bidding, sales, and user management.
 
 ## Features
 - User registration (buyers and sellers)
