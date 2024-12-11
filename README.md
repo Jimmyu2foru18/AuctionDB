@@ -13,7 +13,7 @@ A auction database system that handles auction functionality: bidding, sales, an
 
 ## Database Structure
 
-### Core Tables
+### Tables
 - Time (system time tracking)
 - Users (user information)
 - Items (auction items)
